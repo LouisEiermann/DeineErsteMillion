@@ -1,75 +1,74 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        deineErsteMillion
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
+  <div class="flex-container">
+    <div class="flex-item headline">
+      Beantworte die Fragen, um herauszufinden, wann Du deine erste Million
+      erreicht haben wirst...
+    </div>
+    <div class="flex-item parameters flex-container">
+      <input class="input" placeholder="Startkapital in Euro" v-model="kapital" />
+      <input class="input" placeholder="Sparrate in Euro p. M." v-model="sparrate" />
+      <input class="input" placeholder="Zinssatz in Prozent" v-model="investment" />
+      <button class="btn submit" @click="calculate">Rechnen</button>
+    </div>
+    <div class="flex-item result">
+      Du bist Millionär in {{ jahre }} Jahren !
     </div>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from 'vue'
+<script lang="js">
+import Vue from "vue";
+import Calculator from "@/repository/Calculator.js"
 
-export default Vue.extend({})
+export default Vue.extend({
+  data() {
+    return {
+      jahre: "...",
+      kapital: null,
+      sparrate: null,
+      investment: null
+    };
+  },
+  methods: {
+    calculate: function () {
+      this.jahre = Calculator.calculateYearsToMillion(this.kapital, this.sparrate, this.investment);
+    }
+  }
+});
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
+<style scoped>
+.flex-container {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
 }
 
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.flex-item {
+  margin: 1rem;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.headline {
+  font-size: 2rem;
+  margin-top: 5rem;
+  color: #fff;
 }
 
-.links {
-  padding-top: 15px;
+.input {
+  font-size: 2rem;
+  padding: .7rem;
+  margin: 1rem;
+  border: .1rem solid #fff;
+  border-radius: 1rem;
+}
+
+.submit {
+  margin-top: 1rem;
+}
+
+.result {
+  font-size: 4rem;
+  margin-top: 10rem;
+  color: #fff;
 }
 </style>
